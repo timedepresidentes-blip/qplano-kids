@@ -9,6 +9,7 @@ import { TelaRevisao } from './components/TelaRevisao'
 import { TelaCelebracao } from './components/TelaCelebracao'
 import { Cena3D } from './components/Cena3D'
 import { initAudio, sfx } from './audio/musicEngine'
+import { preloadVoice } from './audio/voiceEngine'
 import type { Missao } from './types/trilha'
 
 type Fase = 'mapa' | 'historia' | 'cartoes' | 'desafio' | 'revisao' | 'celebracao'
@@ -21,7 +22,7 @@ export default function App() {
   const [missaoAtual, setMissaoAtual] = useState<Missao | null>(null)
   const [errosCelebracao, setErrosCelebracao] = useState<number>(0)
 
-  useEffect(() => { initAudio() }, [])
+  useEffect(() => { initAudio(); preloadVoice() }, [])
 
   const iniciarMissao = useCallback((missao: Missao) => {
     setMissaoAtual(missao)

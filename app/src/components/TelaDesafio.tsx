@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import type { Pergunta, Cartao } from '../types/trilha'
 import { moverParaFim, sessaoTerminou } from '../utils/filaPerguntas'
+import { speak, speakOk, speakBad } from '../audio/voiceEngine'
 import { Quasar } from './Quasar'
 import s from './telas.module.css'
 
@@ -29,6 +30,9 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
   const pergunta = fila[idx]
   const total = perguntas.length
 
+  // Lê a pergunta em voz alta ao trocar
+  useEffect(() => { speak(pergunta.pergunta) }, [pergunta.pergunta])
+
   const responder = useCallback((opcaoIdx: number) => {
     if (estado !== 'perguntando') return
     setEscolha(opcaoIdx)
@@ -38,9 +42,11 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
       setCombo(c => c + 1)
       setEstado('correto')
       onAcerto?.()
+      speakOk()
     } else {
       setCombo(0)
       onErroSfx?.()
+      speakBad()
       onErro(pergunta.id)
       setErros(e => [...e, pergunta.id])
       const cartaoCorreto = cartoes.find(c => c.id === pergunta.cartao) ?? null

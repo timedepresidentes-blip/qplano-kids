@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Cartao } from '../types/trilha'
+import { speak } from '../audio/voiceEngine'
 import { Quasar } from './Quasar'
 import s from './telas.module.css'
 
@@ -13,6 +14,8 @@ export function TelaCartoes({ cartoes, missaoNum, onConcluir }: Props) {
   const [idx, setIdx] = useState(0)
   const cartao = cartoes[idx]
   const ultimo = idx === cartoes.length - 1
+
+  useEffect(() => { speak(cartao.texto) }, [cartao.texto])
 
   function avancar() {
     if (ultimo) onConcluir()
