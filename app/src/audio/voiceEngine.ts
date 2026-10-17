@@ -33,11 +33,16 @@ function loadVoice() {
   const voices = window.speechSynthesis?.getVoices() ?? []
   if (!voices.length) return
   voicesReady = true
-  // Tenta voz masculina pt-BR; aceita qualquer pt como fallback
+  const ptBR = voices.filter(v => v.lang === 'pt-BR' || v.lang === 'pt_BR')
+  const ptAny = voices.filter(v => v.lang.startsWith('pt'))
+  const isMale = (v: SpeechSynthesisVoice) => /daniel|felipe|luciano|ricardo|antonio|joao|pedro|male|masc/i.test(v.name)
+  const isFem  = (v: SpeechSynthesisVoice) => /luciana|google|female|fem/i.test(v.name)
   prefVoice =
-    voices.find(v => v.lang === 'pt-BR' && /felipe|male|masculin/i.test(v.name)) ??
-    voices.find(v => v.lang.startsWith('pt-BR')) ??
-    voices.find(v => v.lang.startsWith('pt')) ??
+    ptBR.find(isMale)          ??   // voz masculina pt-BR
+    ptAny.find(isMale)         ??   // voz masculina pt qualquer
+    ptBR.find(v => !isFem(v))  ??   // pt-BR não identificada como feminina
+    ptBR[0]                    ??   // qualquer pt-BR
+    ptAny[0]                   ??
     null
 }
 
@@ -55,8 +60,8 @@ function speakWS(text: string): boolean {
 
   const utt = new SpeechSynthesisUtterance(text)
   utt.lang   = 'pt-BR'
-  utt.pitch  = 1.3    // voz aguda infantil de robô
-  utt.rate   = 1.2    // ritmo animado para crianças
+  utt.pitch  = 0.8    // masculino-robótico (abaixo de 1.0 = mais grave/masculino)
+  utt.rate   = 1.1    // ritmo animado de criança
   utt.volume = 1
   if (prefVoice) utt.voice = prefVoice
 
