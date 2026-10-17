@@ -11,11 +11,13 @@ interface Props {
   missaoNum: number
   onConcluir: (erros: string[]) => void
   onErro: (perguntaId: string) => void
+  onAcerto?: () => void
+  onErroSfx?: () => void
 }
 
 type Estado = 'perguntando' | 'correto' | 'errado' | 'reaprendendo'
 
-export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro }: Props) {
+export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro, onAcerto, onErroSfx }: Props) {
   const [fila, setFila] = useState<Pergunta[]>(() => [...perguntas])
   const [idx, setIdx] = useState(0)
   const [estado, setEstado] = useState<Estado>('perguntando')
@@ -35,8 +37,10 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro 
     if (acertou) {
       setCombo(c => c + 1)
       setEstado('correto')
+      onAcerto?.()
     } else {
       setCombo(0)
+      onErroSfx?.()
       onErro(pergunta.id)
       setErros(e => [...e, pergunta.id])
       const cartaoCorreto = cartoes.find(c => c.id === pergunta.cartao) ?? null
@@ -80,7 +84,7 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro 
           <h3>Quasar explica de novo 💙</h3>
         </div>
         <div className={s.say}>
-          <div className={`${s.qSlot} ${s.qSlotBig}`}><Quasar size={140}/></div>
+          <div className={`${s.qSlot} ${s.qSlotBig} q-slot`}><Quasar size={140}/></div>
           <div className={`${s.bubble} ${s.bubbleQ} ${s.talk}`}>
             {cartaoReaberto.texto}
           </div>

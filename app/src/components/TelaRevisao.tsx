@@ -55,7 +55,7 @@ export function TelaRevisao({ missoesAnteriores, onConcluir }: Props) {
       </div>
 
       <div className={s.say}>
-        <div className={s.qSlot}><Quasar size={100}/></div>
+        <div className={`${s.qSlot} q-slot`}><Quasar size={100}/></div>
         <div className={s.bubble}>
           Vamos revisar o que você já aprendeu!
           <small style={{ display: 'block', marginTop: 4, opacity: 0.7 }}>

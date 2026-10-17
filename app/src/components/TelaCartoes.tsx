@@ -30,7 +30,7 @@ export function TelaCartoes({ cartoes, missaoNum, onConcluir }: Props) {
       </div>
 
       <div className={s.say}>
-        <div className={`${s.qSlot} ${s.qSlotBig}`}><Quasar size={140}/></div>
+        <div className={`${s.qSlot} ${s.qSlotBig} q-slot`}><Quasar size={140}/></div>
         <div className={`${s.bubble} ${s.bubbleQ} ${s.talk}`}>
           {cartao.texto}
           {cartao.versiculo && (

@@ -281,6 +281,30 @@
 .missaoInfo small { color: var(--muted); font-size: 13px; }
 .medalha { font-size: 22px; }
 
+/* ── Medalhas ── */
+.medalhasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.medalhaCard {
+  border-radius: 18px;
+  padding: 14px 10px;
+  text-align: center;
+  border: 1px solid var(--edge);
+  transition: transform .12s;
+}
+.medalhaOn {
+  background: linear-gradient(180deg,rgba(70,224,164,.25),rgba(16,78,66,.4));
+  border-color: var(--good);
+  box-shadow: 0 0 16px rgba(70,224,164,.25);
+}
+.medalhaOff {
+  background: rgba(10,18,60,.4);
+  opacity: .35;
+  filter: grayscale(.8);
+}
+
 /* ── Celebração ── */
 .celebracaoTitulo {
   font-family: var(--display);

@@ -62,6 +62,9 @@
 
       img, svg { display: block; max-width: 100%; }
 
+      /* Quando o Quasar 3D está ativo, oculta o SVG mantendo o espaço de layout */
+      body.has3d .q-slot svg { visibility: hidden; }
+
       /* Scrollbar fina */
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: transparent; }

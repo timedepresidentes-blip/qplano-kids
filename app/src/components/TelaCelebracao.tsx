@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { Missao } from '../types/trilha'
+import { sfx } from '../audio/musicEngine'
 import { Quasar } from './Quasar'
 import s from './telas.module.css'
 
@@ -12,6 +13,8 @@ interface Props {
 
 export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => { sfx('up') }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
