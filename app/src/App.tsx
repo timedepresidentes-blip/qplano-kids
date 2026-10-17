@@ -1,26 +1,30 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useTrilha } from './hooks/useTrilha'
 import { useProgresso } from './hooks/useProgresso'
+import { usePais } from './hooks/usePais'
 import { TelaMapa } from './components/TelaMapa'
 import { TelaHistoria } from './components/TelaHistoria'
 import { TelaCartoes } from './components/TelaCartoes'
 import { TelaDesafio } from './components/TelaDesafio'
 import { TelaRevisao } from './components/TelaRevisao'
 import { TelaCelebracao } from './components/TelaCelebracao'
+import { TelaPais } from './components/TelaPais'
 import { Cena3D } from './components/Cena3D'
 import { initAudio, sfx } from './audio/musicEngine'
 import { preloadVoice } from './audio/voiceEngine'
 import type { Missao } from './types/trilha'
 
-type Fase = 'mapa' | 'historia' | 'cartoes' | 'desafio' | 'revisao' | 'celebracao'
+type Fase = 'mapa' | 'historia' | 'cartoes' | 'desafio' | 'revisao' | 'celebracao' | 'pais'
 
 export default function App() {
   const { trilha, erro } = useTrilha()
   const progresso = useProgresso()
+  const pais = usePais()
 
   const [fase, setFase] = useState<Fase>('mapa')
   const [missaoAtual, setMissaoAtual] = useState<Missao | null>(null)
   const [errosCelebracao, setErrosCelebracao] = useState<number>(0)
+  const inicioDesafioRef = useRef<number>(0)
 
   useEffect(() => { initAudio(); preloadVoice() }, [])
 
@@ -30,10 +34,19 @@ export default function App() {
   }, [])
 
   const onDesafioConcluido = useCallback((erros: string[]) => {
+    const duracao = Math.round((Date.now() - inicioDesafioRef.current) / 1000)
+    const m = missaoAtual!
+    pais.registrarSessao({
+      missaoId: m.id,
+      titulo: m.titulo,
+      acertos: m.perguntas.length - erros.length,
+      erros: erros.length,
+      duracaoSeg: duracao,
+    })
     setErrosCelebracao(erros.length)
-    progresso.completarMissao(missaoAtual!.id)
+    progresso.completarMissao(m.id)
     setFase('revisao')
-  }, [missaoAtual, progresso])
+  }, [missaoAtual, progresso, pais])
 
   const onErroPergunta = useCallback((perguntaId: string) => {
     if (missaoAtual) {
@@ -68,6 +81,7 @@ export default function App() {
           missoes={trilha.missoes}
           progresso={progresso.progresso}
           onIniciar={iniciarMissao}
+          onAbrirPais={() => setFase('pais')}
         />
       )}
 
@@ -87,18 +101,21 @@ export default function App() {
         />
       )}
 
-      {fase === 'desafio' && missaoAtual && (
-        <TelaDesafio
-          perguntas={missaoAtual.perguntas}
-          cartoes={missaoAtual.cartoes}
-          missaoId={missaoAtual.id}
-          missaoNum={missaoAtual.nivel}
-          onConcluir={onDesafioConcluido}
-          onErro={onErroPergunta}
-          onAcerto={() => sfx('ok')}
-          onErroSfx={() => sfx('bad')}
-        />
-      )}
+      {fase === 'desafio' && missaoAtual && (() => {
+        if (inicioDesafioRef.current === 0) inicioDesafioRef.current = Date.now()
+        return (
+          <TelaDesafio
+            perguntas={missaoAtual.perguntas}
+            cartoes={missaoAtual.cartoes}
+            missaoId={missaoAtual.id}
+            missaoNum={missaoAtual.nivel}
+            onConcluir={onDesafioConcluido}
+            onErro={onErroPergunta}
+            onAcerto={() => sfx('ok')}
+            onErroSfx={() => sfx('bad')}
+          />
+        )
+      })()}
 
       {fase === 'revisao' && missaoAtual && (
         <TelaRevisao
@@ -116,7 +133,18 @@ export default function App() {
             setFase('mapa')
             setMissaoAtual(null)
             setErrosCelebracao(0)
+            inicioDesafioRef.current = 0
           }}
+        />
+      )}
+
+      {fase === 'pais' && (
+        <TelaPais
+          dados={pais.dados}
+          progresso={progresso.progresso}
+          onDefinirPin={pais.definirPin}
+          onZerarTudo={(cb) => pais.zerarTudo(() => { progresso.zerar(); cb() })}
+          onFechar={() => setFase('mapa')}
         />
       )}
     </>

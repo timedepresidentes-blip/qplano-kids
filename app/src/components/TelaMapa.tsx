@@ -8,11 +8,12 @@ interface Props {
   missoes: Missao[]
   progresso: Progresso
   onIniciar: (missao: Missao) => void
+  onAbrirPais?: () => void
 }
 
 const ICONES = ['🌟','🪐','🔭','🌙','🚀','👨‍🚀','💡','🪐','🌌','🏆']
 
-export function TelaMapa({ missoes, progresso, onIniciar }: Props) {
+export function TelaMapa({ missoes, progresso, onIniciar, onAbrirPais }: Props) {
   const medalhas = useMedalhas(progresso, missoes.length)
   const conquistadas = medalhas.filter(m => m.conquistada)
 
@@ -26,6 +27,14 @@ export function TelaMapa({ missoes, progresso, onIniciar }: Props) {
             <span className={s.chip}>🔥 {progresso.streakDias} {progresso.streakDias === 1 ? 'dia' : 'dias'}</span>
           )}
           <span className={s.chip}>⚡ {progresso.coragem}</span>
+          {onAbrirPais && (
+            <button
+              onClick={onAbrirPais}
+              style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: 20, cursor: 'pointer', padding: '4px 6px', lineHeight: 1 }}
+              aria-label="Área dos pais"
+              title="Área dos pais"
+            >👨‍👩‍👦</button>
+          )}
         </div>
       </div>
 
