@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import type { Cartao } from '../types/trilha'
 import { speak } from '../audio/voiceEngine'
-import { Quasar } from './Quasar'
+import { sfx } from '../audio/musicEngine'
+import { Personagem } from './Personagem'
 import s from './telas.module.css'
 
 interface Props {
@@ -18,6 +19,7 @@ export function TelaCartoes({ cartoes, missaoNum, onConcluir }: Props) {
   useEffect(() => { speak(cartao.texto) }, [cartao.texto])
 
   function avancar() {
+    sfx('flip')  // som de virar cartão
     if (ultimo) onConcluir()
     else setIdx(i => i + 1)
   }
@@ -33,7 +35,10 @@ export function TelaCartoes({ cartoes, missaoNum, onConcluir }: Props) {
       </div>
 
       <div className={s.say}>
-        <div className={`${s.qSlot} ${s.qSlotBig} q-slot`}><Quasar size={140}/></div>
+        <div className={`${s.qSlot} ${s.qSlotBig} q-slot`}>
+          {/* Personagem reage ao conteúdo: happy no último cartão */}
+          <Personagem missaoNum={missaoNum} mood={ultimo ? 'happy' : 'neutral'} size={140} playSound={idx === 0}/>
+        </div>
         <div className={`${s.bubble} ${s.bubbleQ} ${s.talk}`}>
           {cartao.texto}
           {cartao.versiculo && (
@@ -44,7 +49,7 @@ export function TelaCartoes({ cartoes, missaoNum, onConcluir }: Props) {
 
       <div className={s.missaoNum}>Missão {missaoNum}</div>
 
-      <button className={s.btn} onClick={avancar}>
+      <button className={s.btn} data-no-click-sfx onClick={avancar}>
         {ultimo ? 'Pronto para o desafio! ⚡' : 'Entendi! 👍'}
       </button>
     </div>

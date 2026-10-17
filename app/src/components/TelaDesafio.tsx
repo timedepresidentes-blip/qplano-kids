@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import type { Pergunta, Cartao } from '../types/trilha'
 import { moverParaFim, sessaoTerminou } from '../utils/filaPerguntas'
 import { speak, speakOk, speakBad } from '../audio/voiceEngine'
-import { Quasar } from './Quasar'
+import { Personagem } from './Personagem'
 import s from './telas.module.css'
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
   cartoes: Cartao[]
   missaoId: string
   missaoNum: number
+  // missaoNum também usado para selecionar o personagem temático
   onConcluir: (erros: string[]) => void
   onErro: (perguntaId: string) => void
   onAcerto?: () => void
@@ -82,15 +83,17 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
 
   const letras = ['A', 'B', 'C', 'D']
 
-  // Tela de reaprendizado: Quasar mostra o cartão novamente
+  // Tela de reaprendizado: personagem mostra o cartão novamente
   if (estado === 'reaprendendo' && cartaoReaberto) {
     return (
       <div className={s.tela}>
         <div className={s.reaprendendo}>
-          <h3>Quasar explica de novo 💙</h3>
+          <h3>Aprende de novo 💙</h3>
         </div>
         <div className={s.say}>
-          <div className={`${s.qSlot} ${s.qSlotBig} q-slot`}><Quasar size={140}/></div>
+          <div className={`${s.qSlot} ${s.qSlotBig} q-slot`}>
+            <Personagem missaoNum={missaoNum} mood="sad" size={140} playSound={false}/>
+          </div>
           <div className={`${s.bubble} ${s.bubbleQ} ${s.talk}`}>
             {cartaoReaberto.texto}
           </div>
@@ -151,12 +154,15 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
         })}
       </div>
 
-      {/* Painel de feedback deslizante (estilo Duolingo) */}
+      {/* Painel de feedback deslizante (estilo Duolingo) — personagem reage */}
       {estado === 'correto' && (
         <div className={`${s.feedbackPanel} ${s.feedbackPanelOk}`}>
-          <p className={s.feedbackTitulo}>✅ Correto!</p>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 8 }}>
+            <Personagem missaoNum={missaoNum} mood="happy" size={60} playSound={false}/>
+            <p className={s.feedbackTitulo}>✅ Correto!</p>
+          </div>
           <p className={s.feedbackTexto}>{pergunta.explicacao}</p>
-          <button className={`${s.btn} ${s.btnOk}`} onClick={proximoPasso}>
+          <button className={`${s.btn} ${s.btnOk}`} data-no-click-sfx onClick={proximoPasso}>
             {sessaoTerminou(idx, fila) ? 'Ver resultado! 🎉' : 'Continuar ➜'}
           </button>
         </div>
@@ -164,10 +170,13 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
 
       {estado === 'errado' && (
         <div className={`${s.feedbackPanel} ${s.feedbackPanelBad}`}>
-          <p className={s.feedbackTitulo}>❌ Quase! +2 coragem ⚡</p>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 8 }}>
+            <Personagem missaoNum={missaoNum} mood="sad" size={60} playSound={false}/>
+            <p className={s.feedbackTitulo}>❌ Quase! +2 coragem ⚡</p>
+          </div>
           <p className={s.feedbackTexto}>{pergunta.explicacao}</p>
-          <button className={`${s.btn} ${s.btnBad}`} onClick={proximoPasso}>
-            Quasar me explica 💙
+          <button className={`${s.btn} ${s.btnBad}`} data-no-click-sfx onClick={proximoPasso}>
+            Me explica de novo 💙
           </button>
         </div>
       )}
