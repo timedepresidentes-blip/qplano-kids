@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { Pergunta, Cartao } from '../types/trilha'
+import { moverParaFim, sessaoTerminou } from '../utils/filaPerguntas'
 import { Quasar } from './Quasar'
 import s from './telas.module.css'
 
@@ -52,12 +53,7 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro 
 
     // Após reaprender, coloca a pergunta no final da fila
     if (estado === 'reaprendendo') {
-      setFila(f => {
-        const nova = [...f]
-        const [p] = nova.splice(idx, 1)
-        nova.push(p)
-        return nova
-      })
+      setFila(f => moverParaFim(f, idx))
       setCartaoReaberto(null)
       setEstado('perguntando')
       setEscolha(null)
@@ -65,11 +61,10 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro 
     }
 
     // Correto: avança
-    const proximoIdx = idx + 1
-    if (proximoIdx >= fila.length) {
+    if (sessaoTerminou(idx, fila)) {
       onConcluir(erros)
     } else {
-      setIdx(proximoIdx)
+      setIdx(idx + 1)
       setEstado('perguntando')
       setEscolha(null)
     }
