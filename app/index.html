@@ -7,28 +7,37 @@
     <meta name="description" content="App de aprendizado espacial para crianças" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet" />
+    <!-- Baloo 2: display arredondado vibrante (estilo Duolingo) + Nunito para corpo -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet" />
     <style>
-      /* ── Tokens ── */
+      /* ── Design Tokens — Duolingo-Space ── */
       :root {
-        --display: 'Nunito', sans-serif;
-        --body: 'Nunito Sans', sans-serif;
+        --display: 'Baloo 2', 'Nunito', system-ui, sans-serif;
+        --body:    'Nunito', system-ui, sans-serif;
 
-        --bg:        #070c22;
-        --bg2:       #0a1240;
-        --text:      #f1f4ff;
-        --muted:     #8fa3d8;
-        --edge:      rgba(165,190,255,.22);
-        --glass:     rgba(16,28,80,.55);
-        --glass-strong: rgba(24,40,104,.65);
+        /* Fundo espacial */
+        --bg:   #050D1A;
+        --bg2:  #0A1628;
+        --text: #FFFFFF;
+        --muted: #7BA3D0;
 
-        --sun:       #ffc531;
-        --sun-hi:    #ffe27a;
-        --flare:     #ff9320;
-        --good:      #46e0a4;
-        --good-bg:   rgba(14,68,52,.65);
-        --bad:       #ff6b6b;
-        --bad-bg:    rgba(80,14,14,.65);
+        /* Superfícies */
+        --glass: rgba(255,255,255,.06);
+        --edge:  rgba(255,255,255,.12);
+
+        /* Correto — verde Duolingo */
+        --good:    #58CC02;
+        --good-bg: rgba(88,204,2,.15);
+
+        /* Errado — vermelho Duolingo */
+        --bad:    #FF4B4B;
+        --bad-bg: rgba(255,75,75,.15);
+
+        /* XP / Coragem — ouro */
+        --xp: #FFD700;
+
+        /* Primário — ciano */
+        --primary: #00C8FF;
       }
 
       /* ── Reset ── */
@@ -42,33 +51,37 @@
         color: var(--text);
         min-height: 100dvh;
         overflow-x: hidden;
-        /* Fundo estrelado */
+        /* Fundo: gradiente nebulosa + estrelas pontuais */
         background-image:
-          radial-gradient(ellipse 80% 50% at 50% -10%, rgba(60,100,200,.35) 0%, transparent 70%),
-          radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.8) 0%, transparent 100%),
-          radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,.7) 0%, transparent 100%),
-          radial-gradient(1px 1px at 55% 85%, rgba(255,255,255,.6) 0%, transparent 100%),
-          radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,.5) 0%, transparent 100%),
-          radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,.6) 0%, transparent 100%),
-          radial-gradient(1px 1px at 35% 55%, rgba(255,255,255,.4) 0%, transparent 100%),
-          radial-gradient(1px 1px at 65% 10%, rgba(255,255,255,.5) 0%, transparent 100%);
+          radial-gradient(ellipse 90% 55% at 50% -5%, rgba(80,30,200,.35) 0%, transparent 65%),
+          radial-gradient(ellipse 60% 40% at 80% 90%, rgba(0,60,160,.25) 0%, transparent 60%),
+          radial-gradient(1.5px 1.5px at 18% 28%, rgba(255,255,255,.9) 0%, transparent 100%),
+          radial-gradient(1px   1px   at 72% 18%, rgba(255,255,255,.8) 0%, transparent 100%),
+          radial-gradient(2px   2px   at 40% 75%, rgba(200,220,255,.7) 0%, transparent 100%),
+          radial-gradient(1px   1px   at 85% 55%, rgba(255,255,255,.7) 0%, transparent 100%),
+          radial-gradient(1px   1px   at 12% 62%, rgba(255,255,255,.6) 0%, transparent 100%),
+          radial-gradient(1.5px 1.5px at 55% 40%, rgba(255,255,255,.5) 0%, transparent 100%),
+          radial-gradient(1px   1px   at 30% 88%, rgba(255,255,255,.4) 0%, transparent 100%),
+          radial-gradient(1px   1px   at 92% 82%, rgba(200,220,255,.5) 0%, transparent 100%),
+          radial-gradient(1px   1px   at 60% 96%, rgba(255,255,255,.4) 0%, transparent 100%),
+          radial-gradient(1px   1px   at 5%  45%, rgba(255,255,255,.4) 0%, transparent 100%);
         background-attachment: fixed;
       }
 
       #root { isolation: isolate; }
 
       button { font-family: var(--body); }
-      h1,h2,h3,h4 { font-family: var(--display); }
+      h1, h2, h3, h4 { font-family: var(--display); }
 
       img, svg { display: block; max-width: 100%; }
 
-      /* Quando o Quasar 3D está ativo, oculta o SVG mantendo o espaço de layout */
+      /* Quando 3D ativo, oculta SVG do Quasar mantendo espaço de layout */
       body.has3d .q-slot svg { visibility: hidden; }
 
       /* Scrollbar fina */
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: rgba(165,190,255,.3); border-radius: 4px; }
+      ::-webkit-scrollbar-thumb { background: rgba(120,180,255,.3); border-radius: 4px; }
     </style>
   </head>
   <body>

@@ -11,7 +11,9 @@ interface Props {
   onAbrirPais?: () => void
 }
 
-const ICONES = ['🌟','🪐','🔭','🌙','🚀','👨‍🚀','💡','🪐','🌌','🏆']
+const ICONES = ['🌍', '🌙', '☄️', '🪐', '🔭', '🚀', '👨‍🚀', '🌌', '⭐', '🏆']
+// Posições alternadas estilo Duolingo
+const POSICOES = ['planetaWrapCenter', 'planetaWrapRight', 'planetaWrapCenter', 'planetaWrapLeft'] as const
 
 export function TelaMapa({ missoes, progresso, onIniciar, onAbrirPais }: Props) {
   const medalhas = useMedalhas(progresso, missoes.length)
@@ -24,7 +26,7 @@ export function TelaMapa({ missoes, progresso, onIniciar, onAbrirPais }: Props) 
         <span className={s.brand}>QPlano <b>Kids</b></span>
         <div className={s.chips}>
           {progresso.streakDias > 0 && (
-            <span className={s.chip}>🔥 {progresso.streakDias} {progresso.streakDias === 1 ? 'dia' : 'dias'}</span>
+            <span className={s.chip}>🔥 {progresso.streakDias}</span>
           )}
           <span className={s.chip}>⚡ {progresso.coragem}</span>
           {onAbrirPais && (
@@ -40,40 +42,47 @@ export function TelaMapa({ missoes, progresso, onIniciar, onAbrirPais }: Props) 
 
       {/* Quasar + fala */}
       <div className={s.say}>
-        <div className={`${s.qSlot} q-slot`}><Quasar size={110}/></div>
+        <div className={`${s.qSlot} q-slot`}><Quasar size={100}/></div>
         <div className={`${s.bubble} ${s.bubbleQ}`}>
           {progresso.missoesCompletas.length === 0
             ? 'Olá, Miguel! Pronto para explorar o espaço? 🚀'
-            : `Bem-vindo de volta! Você já completou ${progresso.missoesCompletas.length} missão${progresso.missoesCompletas.length > 1 ? 'ões' : ''}!`}
+            : `Bem-vindo de volta! ${progresso.missoesCompletas.length} missão${progresso.missoesCompletas.length > 1 ? 'ões' : ''} concluída${progresso.missoesCompletas.length > 1 ? 's' : ''}! 🌟`}
         </div>
       </div>
 
-      {/* Lista de missões */}
-      <div className={s.missoes}>
+      {/* Trilha de planetas — ziguezague estilo Duolingo */}
+      <div className={s.trilha}>
         {missoes.map((m, i) => {
-          const completa   = progresso.missoesCompletas.includes(m.id)
-          const disponivel = i === 0 || progresso.missoesCompletas.includes(missoes[i - 1].id)
+          const completa    = progresso.missoesCompletas.includes(m.id)
+          const disponivel  = i === 0 || progresso.missoesCompletas.includes(missoes[i - 1].id)
+          const posClass    = s[POSICOES[i % POSICOES.length]]
+          const statusClass = completa ? s.planetaCompleto : disponivel ? s.planetaDisponivel : s.planetaBloqueado
+
           return (
-            <button
-              key={m.id}
-              className={`${s.missaoBtn} ${completa ? s.completa : disponivel ? s.disponivel : s.bloqueada}`}
-              disabled={!disponivel}
-              onClick={() => onIniciar(m)}
-            >
-              <span className={s.missaoIcone}>{completa ? '✅' : disponivel ? ICONES[i] : '🔒'}</span>
-              <div className={s.missaoInfo}>
-                <strong>Missão {m.nivel}: {m.titulo}</strong>
-                <small>{m.cartoes.length} cartões · {m.perguntas.length} perguntas</small>
+            <div key={m.id}>
+              {i > 0 && <div className={s.trilhaConector} />}
+              <div className={`${s.planetaWrap} ${posClass}`}>
+                <div style={{ position: 'relative', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', paddingBottom: 32 }}>
+                  <button
+                    className={`${s.planetaBtn} ${statusClass}`}
+                    disabled={!disponivel}
+                    onClick={() => onIniciar(m)}
+                    aria-label={`Missão ${m.nivel}: ${m.titulo}`}
+                  >
+                    {completa ? '✅' : disponivel ? ICONES[i % ICONES.length] : '🔒'}
+                    {completa && <span className={s.planetaStarBadge}>⭐</span>}
+                  </button>
+                  <span className={s.planetaLabel}>{m.titulo}</span>
+                </div>
               </div>
-              {completa && <span className={s.medalha}>⭐</span>}
-            </button>
+            </div>
           )
         })}
       </div>
 
       {/* Medalhas conquistadas */}
       {conquistadas.length > 0 && (
-        <div>
+        <div style={{ marginTop: 24 }}>
           <p style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 10 }}>
             Medalhas desbloqueadas
           </p>

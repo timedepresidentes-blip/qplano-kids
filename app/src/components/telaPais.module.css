@@ -18,7 +18,7 @@
   display: block;
   font-family: var(--display);
   font-size: 26px;
-  color: var(--sun-hi);
+  color: var(--xp);
   line-height: 1;
 }
 .statItem span {
@@ -84,8 +84,8 @@
 }
 
 .dotFilled {
-  background: var(--sun);
-  border-color: var(--sun);
+  background: var(--xp);
+  border-color: var(--xp);
 }
 
 .pinDica {

@@ -17,6 +17,7 @@ interface Props {
 }
 
 type Estado = 'perguntando' | 'correto' | 'errado' | 'reaprendendo'
+const MAX_CORACOES = 3
 
 export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro, onAcerto, onErroSfx }: Props) {
   const [fila, setFila] = useState<Pergunta[]>(() => [...perguntas])
@@ -26,11 +27,11 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
   const [erros, setErros] = useState<string[]>([])
   const [cartaoReaberto, setCartaoReaberto] = useState<Cartao | null>(null)
   const [combo, setCombo] = useState(0)
+  const [coracoes, setCoracoes] = useState(MAX_CORACOES)
 
   const pergunta = fila[idx]
   const total = perguntas.length
 
-  // Lê a pergunta em voz alta ao trocar
   useEffect(() => { speak(pergunta.pergunta) }, [pergunta.pergunta])
 
   const responder = useCallback((opcaoIdx: number) => {
@@ -49,6 +50,7 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
       speakBad()
       onErro(pergunta.id)
       setErros(e => [...e, pergunta.id])
+      setCoracoes(c => Math.max(0, c - 1))
       const cartaoCorreto = cartoes.find(c => c.id === pergunta.cartao) ?? null
       setCartaoReaberto(cartaoCorreto)
       setEstado('errado')
@@ -61,7 +63,6 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
       return
     }
 
-    // Após reaprender, coloca a pergunta no final da fila
     if (estado === 'reaprendendo') {
       setFila(f => moverParaFim(f, idx))
       setCartaoReaberto(null)
@@ -70,7 +71,6 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
       return
     }
 
-    // Correto: avança
     if (sessaoTerminou(idx, fila)) {
       onConcluir(erros)
     } else {
@@ -82,11 +82,11 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
 
   const letras = ['A', 'B', 'C', 'D']
 
-  // Tela de reaprendizado: mostra o cartão novamente
+  // Tela de reaprendizado: Quasar mostra o cartão novamente
   if (estado === 'reaprendendo' && cartaoReaberto) {
     return (
       <div className={s.tela}>
-        <div className={s.feedbackBad}>
+        <div className={s.reaprendendo}>
           <h3>Quasar explica de novo 💙</h3>
         </div>
         <div className={s.say}>
@@ -105,25 +105,31 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
 
   return (
     <div className={s.tela}>
-      {/* Progresso */}
+      {/* Header: missão + barra de progresso + corações */}
       <div className={s.bar}>
-        <span className={s.chip}>⚡ Missão {missaoNum}</span>
-        <div className={s.prog}>
-          <i style={{ width: `${(idx / total) * 100}%` }}/>
+        <span className={s.chip}>🚀 Missão {missaoNum}</span>
+        <div className={s.progBar}>
+          <div className={s.prog}>
+            <i style={{ width: `${(idx / total) * 100}%` }} />
+          </div>
         </div>
-        <span className={s.chip}>{idx + 1}/{fila.length}</span>
+        <div className={s.hearts}>
+          {Array.from({ length: MAX_CORACOES }, (_, i) => (
+            <span key={i} className={`${s.heart} ${i >= coracoes ? s.heartLost : ''}`}>❤️</span>
+          ))}
+        </div>
       </div>
 
       {combo >= 2 && estado === 'perguntando' && (
         <div className={s.combo}>🔥 {combo} seguidas!</div>
       )}
 
-      {/* Pergunta */}
+      {/* Card da pergunta */}
       <div className={s.card}>
         <p className={s.perguntaTexto}>{pergunta.pergunta}</p>
       </div>
 
-      {/* Opções */}
+      {/* Opções de resposta */}
       <div className={s.opts}>
         {pergunta.opcoes.map((op, i) => {
           let extra = ''
@@ -145,22 +151,22 @@ export function TelaDesafio({ perguntas, cartoes, missaoNum, onConcluir, onErro,
         })}
       </div>
 
-      {/* Feedback */}
+      {/* Painel de feedback deslizante (estilo Duolingo) */}
       {estado === 'correto' && (
-        <div className={s.feedbackOk}>
-          <h3>✅ Isso aí!</h3>
-          <p>{pergunta.explicacao}</p>
-          <button className={s.btn} onClick={proximoPasso}>
-            {idx + 1 >= fila.length ? 'Ver resultado! 🎉' : 'Próxima ➜'}
+        <div className={`${s.feedbackPanel} ${s.feedbackPanelOk}`}>
+          <p className={s.feedbackTitulo}>✅ Correto!</p>
+          <p className={s.feedbackTexto}>{pergunta.explicacao}</p>
+          <button className={`${s.btn} ${s.btnOk}`} onClick={proximoPasso}>
+            {sessaoTerminou(idx, fila) ? 'Ver resultado! 🎉' : 'Continuar ➜'}
           </button>
         </div>
       )}
 
       {estado === 'errado' && (
-        <div className={s.feedbackBad}>
-          <h3>Quase! +2 coragem ⚡</h3>
-          <p>{pergunta.explicacao}</p>
-          <button className={`${s.btn} ${s.btnAlt}`} onClick={proximoPasso}>
+        <div className={`${s.feedbackPanel} ${s.feedbackPanelBad}`}>
+          <p className={s.feedbackTitulo}>❌ Quase! +2 coragem ⚡</p>
+          <p className={s.feedbackTexto}>{pergunta.explicacao}</p>
+          <button className={`${s.btn} ${s.btnBad}`} onClick={proximoPasso}>
             Quasar me explica 💙
           </button>
         </div>

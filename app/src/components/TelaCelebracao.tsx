@@ -27,20 +27,21 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
 
     const particulas: Array<{
       x: number; y: number; vx: number; vy: number
-      cor: string; tamanho: number; vida: number
+      cor: string; tamanho: number; vida: number; forma: 'circulo' | 'quadrado'
     }> = []
 
-    const cores = ['#ffc531', '#ff8a3d', '#46e0a4', '#8fd3ff', '#ff8f9a', '#ffe27a']
+    const cores = ['#FFD700', '#FF6B6B', '#58CC02', '#00C8FF', '#9333EA', '#FF9600', '#FFF']
 
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 160; i++) {
       particulas.push({
         x: Math.random() * canvas.width,
-        y: -10 - Math.random() * 200,
-        vx: (Math.random() - 0.5) * 4,
-        vy: 2 + Math.random() * 4,
+        y: -10 - Math.random() * 300,
+        vx: (Math.random() - 0.5) * 5,
+        vy: 2 + Math.random() * 5,
         cor: cores[Math.floor(Math.random() * cores.length)],
-        tamanho: 4 + Math.random() * 6,
+        tamanho: 5 + Math.random() * 7,
         vida: 1,
+        forma: Math.random() > 0.5 ? 'circulo' : 'quadrado',
       })
     }
 
@@ -49,14 +50,18 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
       if (!ctx || !canvas) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       for (const p of particulas) {
-        p.x += p.vx
-        p.y += p.vy
-        p.vy += 0.08
-        p.vida -= 0.006
+        p.x  += p.vx
+        p.y  += p.vy
+        p.vy += 0.1
+        p.vida -= 0.005
         ctx.globalAlpha = Math.max(0, p.vida)
         ctx.fillStyle = p.cor
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.tamanho, 0, Math.PI * 2)
+        if (p.forma === 'circulo') {
+          ctx.arc(p.x, p.y, p.tamanho, 0, Math.PI * 2)
+        } else {
+          ctx.rect(p.x - p.tamanho / 2, p.y - p.tamanho / 2, p.tamanho, p.tamanho)
+        }
         ctx.fill()
       }
       ctx.globalAlpha = 1
@@ -69,7 +74,7 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
   }, [])
 
   const acertos = missao.perguntas.length - erros
-  const estrelas = acertos === missao.perguntas.length ? 3 : acertos >= 2 ? 2 : 1
+  const estrelas = acertos === missao.perguntas.length ? 3 : acertos >= Math.ceil(missao.perguntas.length * 0.7) ? 2 : 1
 
   return (
     <div className={s.tela} style={{ textAlign: 'center' }}>
@@ -83,8 +88,8 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
         {estrelas === 3 ? '🏆 Perfeito!' : estrelas === 2 ? '🌟 Muito bem!' : '⭐ Missão cumprida!'}
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', margin: '16px 0' }}>
-        <Quasar size={150}/>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '12px 0' }}>
+        <Quasar size={140} />
       </div>
 
       <div className={`${s.bubble} ${s.bubbleQ}`} style={{ margin: '0 auto 20px', maxWidth: 360 }}>
@@ -93,14 +98,14 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
           : `Ótimo trabalho na Missão "${missao.titulo}"! Continue assim! 💪`}
       </div>
 
-      {/* Estrelas */}
+      {/* Estrelas animadas */}
       <div className={s.estrelas}>
         {[1, 2, 3].map(n => (
-          <span key={n} style={{
-            fontSize: 48,
-            filter: n <= estrelas ? 'drop-shadow(0 0 12px #ffc531)' : 'none',
-            opacity: n <= estrelas ? 1 : 0.2,
-          }}>⭐</span>
+          <span
+            key={n}
+            className={n <= estrelas ? s.estrelaBig : s.estrelaVazia}
+            style={n <= estrelas ? { animationDelay: `${(n - 1) * 0.15}s` } : {}}
+          >⭐</span>
         ))}
       </div>
 
@@ -116,7 +121,7 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
         </div>
         <div className={s.stat}>
           <b>{coragem}</b>
-          <span>Total</span>
+          <span>Total ⚡</span>
         </div>
       </div>
 
