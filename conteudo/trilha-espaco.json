@@ -1,0 +1,158 @@
+{
+  "trilha": "espaco",
+  "titulo": "Espaço",
+  "regra": "Nenhuma pergunta pode ser feita antes de o Miguel ter visto o cartão (cardId) que contém a resposta. Perguntas de revisão só usam cartões de missões já concluídas.",
+  "traducao_biblica": "ARA (Almeida Revista e Atualizada) - confirmar com o papai",
+  "missoes": [
+    {
+      "id": "m01", "nivel": 1, "titulo": "A estrela que cuida de nós",
+      "historia": "Quasar saiu da nave e olhou para a nossa casa no espaço. Vem ver o que ele descobriu!",
+      "cartoes": [
+        { "id": "m01c1", "texto": "Lá em cima brilha o Sol. O Sol é uma estrela! Ele dá luz para o nosso dia e aquece a Terra." },
+        { "id": "m01c2", "texto": "A Terra é a nossa casa no espaço. Ela tem a forma parecida com uma bola gigante." },
+        { "id": "m01c3", "texto": "A Terra tem uma Lua só. Uma Lua que fica girando em volta de nós." },
+        { "id": "m01c4", "texto": "A Bíblia diz: No princípio, criou Deus os céus e a terra. Gênesis 1:1.", "versiculo": "Gênesis 1:1" }
+      ],
+      "perguntas": [
+        { "id": "m01q1", "cartao": "m01c1", "pergunta": "Qual estrela ilumina e aquece a Terra?", "opcoes": ["Lua", "Sol", "Marte", "Vênus"], "resposta": 1, "explicacao": "O Sol é uma estrela, e dá luz e calor para a Terra." },
+        { "id": "m01q2", "cartao": "m01c3", "pergunta": "Quantas Luas a Terra tem?", "opcoes": ["Nenhuma", "Uma", "Duas", "Oito"], "resposta": 1, "explicacao": "A Terra tem uma Lua só." },
+        { "id": "m01q3", "cartao": "m01c2", "pergunta": "Qual é o formato da Terra?", "opcoes": ["Quadrado", "Disco plano", "Parecido com uma bola", "Triângulo"], "resposta": 2, "explicacao": "A Terra é parecida com uma bola gigante." }
+      ]
+    },
+    {
+      "id": "m02", "nivel": 2, "titulo": "A família do Sol",
+      "historia": "O Sol tem uma família de planetas que gira em volta dele. Quasar vai apresentar alguns!",
+      "cartoes": [
+        { "id": "m02c1", "texto": "Em volta do Sol giram 8 planetas. Esse grupo se chama Sistema Solar." },
+        { "id": "m02c2", "texto": "Marte é o planeta vermelho. A poeira vermelha cobre o chão dele." },
+        { "id": "m02c3", "texto": "Saturno é famoso pelos anéis. Eles são feitos de gelo e pedaços de rocha." },
+        { "id": "m02c4", "texto": "Tudo isso foi feito com ordem e com cuidado. A criação é muito bem pensada." }
+      ],
+      "perguntas": [
+        { "id": "m02q1", "cartao": "m02c2", "pergunta": "Qual planeta é chamado de planeta vermelho?", "opcoes": ["Marte", "Netuno", "Mercúrio", "Saturno"], "resposta": 0, "explicacao": "Marte é vermelho por causa da poeira." },
+        { "id": "m02q2", "cartao": "m02c1", "pergunta": "Quantos planetas tem o Sistema Solar?", "opcoes": ["6", "7", "8", "9"], "resposta": 2, "explicacao": "São 8 planetas em volta do Sol." },
+        { "id": "m02q3", "cartao": "m02c3", "pergunta": "Qual planeta é famoso pelos anéis?", "opcoes": ["Saturno", "Terra", "Vênus", "Marte"], "resposta": 0, "explicacao": "Saturno tem anéis de gelo e rocha." }
+      ]
+    },
+    {
+      "id": "m03", "nivel": 3, "titulo": "Gigantes e viajantes",
+      "historia": "Hoje Quasar mede tamanhos e distâncias. Prepare a régua do espaço!",
+      "cartoes": [
+        { "id": "m03c1", "texto": "Júpiter é o maior planeta. Cabem mais de mil Terras dentro dele." },
+        { "id": "m03c2", "texto": "Mercúrio é o planeta mais perto do Sol. Ele é pequeno e muito quente de dia." },
+        { "id": "m03c3", "texto": "A Terra dá uma volta completa em torno do Sol. Essa volta demora um ano." },
+        { "id": "m03c4", "texto": "Um ano tem 365 dias. É o tempo que a Terra leva para voltar ao mesmo ponto." }
+      ],
+      "perguntas": [
+        { "id": "m03q1", "cartao": "m03c1", "pergunta": "Qual é o maior planeta do Sistema Solar?", "opcoes": ["Terra", "Saturno", "Júpiter", "Netuno"], "resposta": 2, "explicacao": "Júpiter é o maior de todos." },
+        { "id": "m03q2", "cartao": "m03c2", "pergunta": "Qual planeta está mais perto do Sol?", "opcoes": ["Vênus", "Mercúrio", "Terra", "Marte"], "resposta": 1, "explicacao": "Mercúrio é o mais perto do Sol." },
+        { "id": "m03q3", "cartao": "m03c3", "pergunta": "Quanto tempo a Terra leva para dar uma volta no Sol?", "opcoes": ["Um dia", "Um mês", "Um ano", "Uma semana"], "resposta": 2, "explicacao": "Uma volta completa no Sol é um ano." }
+      ]
+    },
+    {
+      "id": "m04", "nivel": 4, "titulo": "Dia, noite e Lua",
+      "historia": "Por que o céu escurece? Quasar mostra o segredo do giro da Terra.",
+      "cartoes": [
+        { "id": "m04c1", "texto": "A Terra gira em torno de si mesma, como um pião. Esse giro faz o dia e a noite." },
+        { "id": "m04c2", "texto": "A Lua não tem luz própria. Ela brilha porque reflete a luz do Sol." },
+        { "id": "m04c3", "texto": "O Sistema Solar fica dentro de uma galáxia chamada Via Láctea. Ela tem bilhões de estrelas." },
+        { "id": "m04c4", "texto": "Deus fez o sol para governar o dia e a lua para governar a noite. Gênesis 1:16.", "versiculo": "Gênesis 1:16" }
+      ],
+      "perguntas": [
+        { "id": "m04q1", "cartao": "m04c1", "pergunta": "O que causa o dia e a noite?", "opcoes": ["A Terra girando em torno de si mesma", "O Sol apagando", "A Lua cobrindo o Sol", "A Terra se afastando do Sol"], "resposta": 0, "explicacao": "O giro da Terra faz o dia e a noite." },
+        { "id": "m04q2", "cartao": "m04c2", "pergunta": "Por que a Lua brilha no céu?", "opcoes": ["Tem luz própria", "Reflete a luz do Sol", "É feita de fogo", "Reflete a luz das estrelas"], "resposta": 1, "explicacao": "A Lua reflete a luz do Sol." },
+        { "id": "m04q3", "cartao": "m04c3", "pergunta": "Como se chama a galáxia onde fica o Sistema Solar?", "opcoes": ["Andrômeda", "Via Láctea", "Órion", "Sírius"], "resposta": 1, "explicacao": "Nossa galáxia é a Via Láctea." }
+      ]
+    },
+    {
+      "id": "m05", "nivel": 5, "titulo": "Os primeiros exploradores",
+      "historia": "Hoje Quasar conta a história de pessoas corajosas que chegaram ao espaço.",
+      "cartoes": [
+        { "id": "m05c1", "texto": "Vênus é o planeta mais quente do Sistema Solar, mais quente até que Mercúrio. O ar dele é grosso e guarda o calor." },
+        { "id": "m05c2", "texto": "Em 1961, Yuri Gagarin foi o primeiro ser humano a ir ao espaço. Ele deu uma volta em torno da Terra." },
+        { "id": "m05c3", "texto": "Em 2006, Marcos Pontes foi o primeiro brasileiro a ir ao espaço. Ele ficou na Estação Espacial Internacional." },
+        { "id": "m05c4", "texto": "Explorar com coragem e estudar muito é um jeito de conhecer a obra de Deus." }
+      ],
+      "perguntas": [
+        { "id": "m05q1", "cartao": "m05c1", "pergunta": "Qual é o planeta mais quente do Sistema Solar?", "opcoes": ["Mercúrio", "Vênus", "Marte", "Júpiter"], "resposta": 1, "explicacao": "Vênus é o mais quente, porque o ar dele guarda o calor." },
+        { "id": "m05q2", "cartao": "m05c2", "pergunta": "Quem foi o primeiro ser humano a ir ao espaço?", "opcoes": ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Santos Dumont"], "resposta": 2, "explicacao": "Yuri Gagarin foi ao espaço em 1961." },
+        { "id": "m05q3", "cartao": "m05c3", "pergunta": "Quem foi o primeiro brasileiro a ir ao espaço?", "opcoes": ["Marcos Pontes", "Santos Dumont", "Neil Armstrong", "Ayrton Senna"], "resposta": 0, "explicacao": "Marcos Pontes foi ao espaço em 2006." }
+      ]
+    },
+    {
+      "id": "m06", "nivel": 6, "titulo": "Passos na Lua",
+      "historia": "Uma viagem até a Lua e dois jeitos de enxergar o céu com mais atenção.",
+      "cartoes": [
+        { "id": "m06c1", "texto": "Em 1969, Neil Armstrong foi o primeiro ser humano a pisar na Lua." },
+        { "id": "m06c2", "texto": "Um eclipse solar acontece quando a Lua passa entre a Terra e o Sol. A Lua tampa a luz do Sol por alguns minutos." },
+        { "id": "m06c3", "texto": "Estrela e planeta são diferentes. A estrela produz a própria luz, e o planeta só reflete a luz da estrela." },
+        { "id": "m06c4", "texto": "O Sol é uma estrela e a Terra é um planeta." }
+      ],
+      "perguntas": [
+        { "id": "m06q1", "cartao": "m06c1", "pergunta": "Quem foi o primeiro ser humano a pisar na Lua?", "opcoes": ["Yuri Gagarin", "Neil Armstrong", "Marcos Pontes", "Buzz Aldrin"], "resposta": 1, "explicacao": "Neil Armstrong pisou na Lua em 1969." },
+        { "id": "m06q2", "cartao": "m06c2", "pergunta": "O que é um eclipse solar?", "opcoes": ["A Lua passando entre a Terra e o Sol", "O Sol sumindo de vez", "A Terra passando entre o Sol e a Lua", "Um planeta cobrindo a Lua"], "resposta": 0, "explicacao": "No eclipse solar, a Lua fica entre a Terra e o Sol." },
+        { "id": "m06q3", "cartao": "m06c3", "pergunta": "Qual é a diferença entre uma estrela e um planeta?", "opcoes": ["A estrela é sempre maior", "A estrela produz a própria luz", "O planeta tem anéis", "Não há diferença"], "resposta": 1, "explicacao": "A estrela faz a própria luz." }
+      ]
+    },
+    {
+      "id": "m07", "nivel": 7, "titulo": "Distâncias gigantes",
+      "historia": "A luz é a mais rápida de todas. Quasar mostra o quanto o espaço é grande.",
+      "cartoes": [
+        { "id": "m07c1", "texto": "A luz do Sol leva cerca de 8 minutos para chegar até a Terra." },
+        { "id": "m07c2", "texto": "A galáxia grande mais próxima da Via Láctea se chama Andrômeda." },
+        { "id": "m07c3", "texto": "Entre Marte e Júpiter existe o cinturão de asteroides. São milhões de rochas que giram em volta do Sol." },
+        { "id": "m07c4", "texto": "Os céus são enormes e Deus conhece cada estrela pelo nome. Salmo 147:4.", "versiculo": "Salmo 147:4" }
+      ],
+      "perguntas": [
+        { "id": "m07q1", "cartao": "m07c1", "pergunta": "Quanto tempo a luz do Sol leva para chegar à Terra?", "opcoes": ["1 segundo", "Cerca de 8 minutos", "1 dia", "1 ano"], "resposta": 1, "explicacao": "A luz do Sol demora cerca de 8 minutos." },
+        { "id": "m07q2", "cartao": "m07c2", "pergunta": "Qual é a grande galáxia mais próxima da Via Láctea?", "opcoes": ["Andrômeda", "Órion", "Sírius", "Cometa"], "resposta": 0, "explicacao": "Andrômeda é a vizinha grande da Via Láctea." },
+        { "id": "m07q3", "cartao": "m07c3", "pergunta": "O que é o cinturão de asteroides?", "opcoes": ["Um anel de Saturno", "Rochas entre Marte e Júpiter", "Uma nuvem na Terra", "Um cinto de estrelas"], "resposta": 1, "explicacao": "São rochas que ficam entre Marte e Júpiter." }
+      ]
+    },
+    {
+      "id": "m08", "nivel": 8, "titulo": "Planetas esquisitos",
+      "historia": "Alguns lugares do Sistema Solar são muito diferentes. Vamos ver três deles!",
+      "cartoes": [
+        { "id": "m08c1", "texto": "Urano gira deitado, como uma bola rolando de lado. Ele é o planeta que gira praticamente deitado." },
+        { "id": "m08c2", "texto": "Em Marte fica o Monte Olimpo, o maior vulcão do Sistema Solar. Ele é muito mais alto que o Monte Everest." },
+        { "id": "m08c3", "texto": "Plutão já foi chamado de planeta. Em 2006, os astrônomos criaram uma nova definição, e Plutão passou a ser um planeta-anão." },
+        { "id": "m08c4", "texto": "Os cientistas continuam estudando e corrigindo o que sabem. Aprender é um caminho sem fim." }
+      ],
+      "perguntas": [
+        { "id": "m08q1", "cartao": "m08c1", "pergunta": "Qual planeta gira praticamente deitado?", "opcoes": ["Urano", "Terra", "Marte", "Mercúrio"], "resposta": 0, "explicacao": "Urano gira deitado." },
+        { "id": "m08q2", "cartao": "m08c2", "pergunta": "Qual é o maior vulcão do Sistema Solar, em Marte?", "opcoes": ["Monte Fuji", "Monte Olimpo", "Vesúvio", "Krakatoa"], "resposta": 1, "explicacao": "O Monte Olimpo fica em Marte." },
+        { "id": "m08q3", "cartao": "m08c3", "pergunta": "Por que Plutão deixou de ser chamado de planeta?", "opcoes": ["Explodiu", "Fugiu do Sistema Solar", "Virou planeta-anão numa nova definição de 2006", "Foi engolido por Netuno"], "resposta": 2, "explicacao": "Em 2006 Plutão passou a ser planeta-anão." }
+      ]
+    },
+    {
+      "id": "m09", "nivel": 9, "titulo": "Além do Sistema Solar",
+      "historia": "Agora Quasar vai bem longe, até as estrelas vizinhas e os mistérios do espaço.",
+      "cartoes": [
+        { "id": "m09c1", "texto": "Um ano-luz é a distância que a luz percorre em um ano. Não é tempo, é distância." },
+        { "id": "m09c2", "texto": "A estrela mais próxima da Terra, depois do Sol, é Próxima Centauri. Ela fica a pouco mais de 4 anos-luz." },
+        { "id": "m09c3", "texto": "Buraco negro é uma região onde a gravidade é tão forte que nem a luz escapa." },
+        { "id": "m09c4", "texto": "Quanto mais descobrimos, mais vemos o tamanho da obra de Deus." }
+      ],
+      "perguntas": [
+        { "id": "m09q1", "cartao": "m09c1", "pergunta": "O que é um ano-luz?", "opcoes": ["Um ano com mais luz", "A distância que a luz percorre em um ano", "O tempo de uma volta ao Sol", "A idade de uma estrela"], "resposta": 1, "explicacao": "Ano-luz é distância, não tempo." },
+        { "id": "m09q2", "cartao": "m09c2", "pergunta": "Qual é a estrela mais próxima da Terra, depois do Sol?", "opcoes": ["Sírius", "Próxima Centauri", "Polaris", "Betelgeuse"], "resposta": 1, "explicacao": "Próxima Centauri é a mais perto, depois do Sol." },
+        { "id": "m09q3", "cartao": "m09c3", "pergunta": "O que é um buraco negro?", "opcoes": ["Um planeta escuro", "Uma região onde a gravidade é tão forte que nem a luz escapa", "Um buraco na Lua", "Uma estrela apagada qualquer"], "resposta": 1, "explicacao": "A gravidade dele é tão forte que prende até a luz." }
+      ]
+    },
+    {
+      "id": "m10", "nivel": 10, "titulo": "Mestre do espaço",
+      "historia": "Missão final da trilha! Quasar junta tudo o que você aprendeu e traz mais uma novidade.",
+      "cartoes": [
+        { "id": "m10c1", "texto": "A ordem dos planetas a partir do Sol é: Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano e Netuno." },
+        { "id": "m10c2", "texto": "Na Estação Espacial Internacional, os astronautas flutuam porque estão em queda livre em volta da Terra. A gravidade não sumiu." },
+        { "id": "m10c3", "texto": "A Bíblia diz: Os céus declaram a glória de Deus, e o firmamento anuncia as obras das suas mãos. Está no livro de Salmos, capítulo 19, versículo 1.", "versiculo": "Salmo 19:1" },
+        { "id": "m10c4", "texto": "Parabéns, explorador! Você conhece o Sistema Solar e sabe de quem é a obra." }
+      ],
+      "perguntas": [
+        { "id": "m10q1", "cartao": "m10c1", "pergunta": "Qual é a ordem correta dos planetas a partir do Sol?", "opcoes": ["Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano, Netuno", "Vênus, Mercúrio, Terra, Marte, Júpiter, Saturno, Netuno, Urano", "Mercúrio, Vênus, Marte, Terra, Júpiter, Saturno, Urano, Netuno", "Terra, Marte, Vênus, Mercúrio, Júpiter, Saturno, Urano, Netuno"], "resposta": 0, "explicacao": "Essa é a ordem certa, de Mercúrio a Netuno." },
+        { "id": "m10q2", "cartao": "m10c2", "pergunta": "Por que os astronautas flutuam na Estação Espacial Internacional?", "opcoes": ["Lá não existe gravidade", "Estão em queda livre ao redor da Terra", "O ar os empurra para cima", "Usam ímãs"], "resposta": 1, "explicacao": "Eles caem em volta da Terra o tempo todo." },
+        { "id": "m10q3", "cartao": "m10c3", "pergunta": "Em qual livro da Bíblia está o verso: Os céus declaram a glória de Deus?", "opcoes": ["Gênesis", "Salmos", "Provérbios", "Êxodo"], "resposta": 1, "explicacao": "Está em Salmos 19:1." }
+      ]
+    }
+  ]
+}

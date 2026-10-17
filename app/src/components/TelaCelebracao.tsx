@@ -8,10 +8,12 @@ interface Props {
   missao: Missao
   erros: number
   coragem: number
+  estrelasAnterior?: number   // 0 = primeira vez; >0 = replay
+  ehDesafioDiario?: boolean
   onVoltar: () => void
 }
 
-export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
+export function TelaCelebracao({ missao, erros, coragem, estrelasAnterior = 0, ehDesafioDiario = false, onVoltar }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => { sfx('up') }, [])
@@ -74,7 +76,9 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
   }, [])
 
   const acertos = missao.perguntas.length - erros
-  const estrelas = acertos === missao.perguntas.length ? 3 : acertos >= Math.ceil(missao.perguntas.length * 0.7) ? 2 : 1
+  const estrelas = erros === 0 ? 3 : erros === 1 ? 2 : 1
+  const bonusDesafio = ehDesafioDiario && estrelas === 3 ? 50 : 0
+  const melhorou = estrelasAnterior > 0 && estrelas > estrelasAnterior
 
   return (
     <div className={s.tela} style={{ textAlign: 'center' }}>
@@ -93,9 +97,11 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
       </div>
 
       <div className={`${s.bubble} ${s.bubbleQ}`} style={{ margin: '0 auto 20px', maxWidth: 360 }}>
-        {estrelas === 3
-          ? `Incrível, Miguel! Você acertou tudo na Missão "${missao.titulo}"! 🎉`
-          : `Ótimo trabalho na Missão "${missao.titulo}"! Continue assim! 💪`}
+        {melhorou
+          ? `Nova marca na Missão "${missao.titulo}"! ${'⭐'.repeat(estrelasAnterior)} → ${'⭐'.repeat(estrelas)} 🌟`
+          : estrelas === 3
+            ? `Incrível, Miguel! Você acertou tudo na Missão "${missao.titulo}"! 🎉`
+            : `Ótimo trabalho na Missão "${missao.titulo}"! Continue assim! 💪`}
       </div>
 
       {/* Estrelas animadas */}
@@ -109,6 +115,13 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
         ))}
       </div>
 
+      {/* Bonus desafio diário */}
+      {ehDesafioDiario && estrelas === 3 && (
+        <div style={{ background: 'rgba(255,215,0,.15)', border: '2px solid gold', borderRadius: 16, padding: '8px 20px', margin: '0 auto 12px', maxWidth: 280, textAlign: 'center', fontSize: 15, fontWeight: 800, color: '#FFD700' }}>
+          🎯 Desafio diário! +50 ⚡ bônus!
+        </div>
+      )}
+
       {/* Stats */}
       <div className={s.statsRow}>
         <div className={s.stat}>
@@ -116,7 +129,7 @@ export function TelaCelebracao({ missao, erros, coragem, onVoltar }: Props) {
           <span>Acertos</span>
         </div>
         <div className={s.stat}>
-          <b>+{10 + erros * 2}⚡</b>
+          <b>+{10 + (estrelas - 1) * 5 + bonusDesafio}⚡</b>
           <span>Coragem</span>
         </div>
         <div className={s.stat}>

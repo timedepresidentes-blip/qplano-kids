@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { useTrilha } from './hooks/useTrilha'
-import { useProgresso } from './hooks/useProgresso'
+import { useProgresso, calcularEstrelas } from './hooks/useProgresso'
 import { usePais } from './hooks/usePais'
 import { TelaMapa } from './components/TelaMapa'
 import { TelaHistoria } from './components/TelaHistoria'
@@ -24,9 +24,15 @@ export default function App() {
   const [fase, setFase] = useState<Fase>('mapa')
   const [missaoAtual, setMissaoAtual] = useState<Missao | null>(null)
   const [errosCelebracao, setErrosCelebracao] = useState<number>(0)
+  const [estrelasAnteriorCelebracao, setEstrelasAnteriorCelebracao] = useState<number>(0)
+  const [ehDesafioCelebracao, setEhDesafioCelebracao] = useState<boolean>(false)
   const inicioDesafioRef = useRef<number>(0)
 
-  useEffect(() => { initAudio(); preloadVoice() }, [])
+  useEffect(() => {
+    initAudio()
+    preloadVoice()
+    progresso.gerarDesafioDiario()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const iniciarMissao = useCallback((missao: Missao) => {
     setMissaoAtual(missao)
@@ -43,8 +49,16 @@ export default function App() {
       erros: erros.length,
       duracaoSeg: duracao,
     })
+    const hoje = new Date().toISOString().split('T')[0]
+    const estrelasAnter = progresso.progresso.missoesEstrelas?.[m.id] ?? 0
+    const ehDesafio = progresso.progresso.desafioDiario?.data === hoje &&
+                      progresso.progresso.desafioDiario?.missaoId === m.id &&
+                      !progresso.progresso.desafioDiario?.concluido
+    const estrelas = calcularEstrelas(erros.length)
     setErrosCelebracao(erros.length)
-    progresso.completarMissao(m.id)
+    setEstrelasAnteriorCelebracao(estrelasAnter)
+    setEhDesafioCelebracao(ehDesafio ?? false)
+    progresso.completarMissao(m.id, estrelas)
     setFase('revisao')
   }, [missaoAtual, progresso, pais])
 
@@ -129,10 +143,14 @@ export default function App() {
           missao={missaoAtual}
           erros={errosCelebracao}
           coragem={progresso.progresso.coragem}
+          estrelasAnterior={estrelasAnteriorCelebracao}
+          ehDesafioDiario={ehDesafioCelebracao}
           onVoltar={() => {
             setFase('mapa')
             setMissaoAtual(null)
             setErrosCelebracao(0)
+            setEstrelasAnteriorCelebracao(0)
+            setEhDesafioCelebracao(false)
             inicioDesafioRef.current = 0
           }}
         />

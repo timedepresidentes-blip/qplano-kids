@@ -55,8 +55,8 @@ function speakWS(text: string): boolean {
 
   const utt = new SpeechSynthesisUtterance(text)
   utt.lang   = 'pt-BR'
-  utt.pitch  = 0.45   // grave: efeito robótico
-  utt.rate   = 0.82   // levemente mais lento
+  utt.pitch  = 1.3    // voz aguda infantil de robô
+  utt.rate   = 1.2    // ritmo animado para crianças
   utt.volume = 1
   if (prefVoice) utt.voice = prefVoice
 
